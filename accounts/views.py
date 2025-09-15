@@ -13,7 +13,7 @@ def register(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
             messages.success(request, 'Account created successfully! You can now log in.')
-            return redirect('login')  # redirect to login page after successful registration
+            return redirect('login')  
     else:
         form = UserForm()
         return render(request, 'accounts/register.html', {'form': form})
@@ -26,10 +26,11 @@ def login(request):
 
         user = auth.authenticate(request, email=email, password=password)
 
-        if user is not None:
+        if user is not None and user.is_active:
             auth.login(request, user)
             messages.success(request, "You are now logged in")
-            return redirect('dashboard')  # redirect to dashboard after login
+
+            return redirect('/accounts/dashboard/')  
         else:
             messages.error(request, "Invalid email or password")
             return redirect('login') 

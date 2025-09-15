@@ -67,7 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def has_perm(self, perm, obj=None):
-        return self.is_admin
+        return self.is_active and (self.is_superuser or self.is_staff)
 
     def has_module_perms(self, app_label):
-        return True
+        return self.is_active and (self.is_superuser or self.is_staff)
