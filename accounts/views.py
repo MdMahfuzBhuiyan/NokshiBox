@@ -2,6 +2,10 @@ from django.contrib import messages, auth
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from accounts.forms import UserForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
 
 User = get_user_model()
 
