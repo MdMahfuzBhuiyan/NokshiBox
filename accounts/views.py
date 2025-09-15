@@ -10,14 +10,13 @@ from django.contrib import messages
 User = get_user_model()
 
 def register(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            messages.success(request, 'Account created successfully! You can now log in.')
-            return redirect('login')  
+            form.save()
+            return redirect('login')  # or any other valid route name
+        else:
+            return render(request, 'accounts/register.html', {'form': form})
     else:
         form = UserForm()
         return render(request, 'accounts/register.html', {'form': form})
