@@ -1,0 +1,89 @@
+<!-- templates/accounts/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - NokshiBox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        .register-container {
+            max-width: 700px;
+            margin: 60px auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+<div class="register-container">
+    <h3 class="text-center">WELCOME TO NOKSHIBOX</h3>
+    <hr>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- ✅ Non-field errors (like password mismatch) -->
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            {{ form.full_name.label_tag }}
+            {{ form.full_name }}
+            {{ form.full_name.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.mobile.label_tag }}
+            {{ form.mobile }}
+            {{ form.mobile.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.password.label_tag }}
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.confirm_password.label_tag }}
+            {{ form.confirm_password }}
+            {{ form.confirm_password.errors }}
+        </div>
+
+        <div class="mb-3">
+            <label>Are you a Seller or Customer?</label><br>
+            {{ form.role }}
+            {{ form.role.errors }}
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger">Create My Account</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
