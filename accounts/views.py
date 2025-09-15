@@ -1,7 +1,9 @@
-# accounts/views.py
-from django.contrib import messages
-from django.shortcuts import render
+from django.contrib import messages, auth
+from django.contrib.auth import get_user_model
+from django.shortcuts import redirect, render
 from accounts.forms import UserForm
+
+User = get_user_model()
 
 def register(request):
     if request.method == 'POST':
@@ -10,16 +12,35 @@ def register(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-
-            messages.success(request, 'Account created successfully!')
-            form = UserForm()  # Clear form after success
-
+            messages.success(request, 'Account created successfully! You can now log in.')
+            return redirect('login')  # redirect to login page after successful registration
     else:
         form = UserForm()
+        return render(request, 'accounts/register.html', {'form': form})
 
-    return render(request, 'accounts/register.html', {'form': form})
+
+def login(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user = auth.authenticate(request, email=email, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, "You are now logged in")
+            return redirect('dashboard')  # redirect to dashboard after login
+        else:
+            messages.error(request, "Invalid email or password")
+            return redirect('login') 
+    return render(request, 'accounts/login.html')
 
 
-def home(request):
-    return render(request, 'main/home.html')  # use the correct path here
+def logout(request):
+    auth.logout(request)
+    messages.info(request, 'You are logged out')
+    return redirect('login')
 
+
+def dashboard(request):
+    return render(request, 'accounts/dashboard.html')
