@@ -78,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'nokshibox_db',
         'USER': 'postgres',
-        'PASSWORD': '123456',
+        'PASSWORD': 'alilove787',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -120,11 +120,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR /'static'
+import os
+
+# URL to access static files in the browser
+STATIC_URL = '/static/'
+
+# Directory where Django will look for static files in your apps
 STATICFILES_DIRS = [
-    'main/static'
+    os.path.join(BASE_DIR, 'static'),
 ]
+
+# Directory where static files will be collected (for production)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
